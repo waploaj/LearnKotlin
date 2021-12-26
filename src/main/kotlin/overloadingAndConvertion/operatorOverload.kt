@@ -1,6 +1,7 @@
 package overloadingAndConvertion
 
 import java.awt.geom.Point2D
+import java.math.BigDecimal
 
 data class Point(val x:Int, val y:Int)
 data class Point1(val x: Int, val y: Int)
@@ -16,11 +17,15 @@ operator fun Point.plus(other:Point):Point{
     return Point(x + other.x, y + other.y)
 }
 
+//When you define dec and inc function to increment and decrement operator
+//compile support the same semantics for pre- and post- increments for the regular number types
 class UnaryOverload(var string: String){
     operator fun unaryMinus(){
         string = string.reversed()
     }
 }
+
+operator fun BigDecimal.inc() = this + BigDecimal.ONE
 
 //Defining operator with different operand
 operator fun Point.times(s:Double):Point{
@@ -46,6 +51,15 @@ class Point2(val x: Int, val y: Int){
     }
 }
 
+//Implemanting CompareTo method
+data class Person(val firstname:String, val lastname:String):Comparable<Person>{
+    override fun compareTo(other: Person): Int {
+        return compareValuesBy(this,other,Person::firstname,Person::lastname)
+    }
+
+}
+
+
 fun main(){
     val p = UnaryOverload("mambo")
     println(p.string)
@@ -57,4 +71,16 @@ fun main(){
     println(j * 3.8)
     println('a'.times(7))
     println(point == otherPoint)
+    var bd = BigDecimal.ZERO
+    println(++bd)
+    println(bd++)
+    val ps = Person("azzzz", "aaudi")
+    val ps2 = Person("azzz","kasimu")
+    val bel = mutableListOf<Person>(ps,ps2)
+    println(ps > ps2)
+    (bel.sort())
+    println(bel)
+
+
 }
+
