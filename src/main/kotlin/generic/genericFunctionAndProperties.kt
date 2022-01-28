@@ -1,4 +1,7 @@
-package Generic
+package generic
+
+import java.lang.NullPointerException
+import java.util.*
 
 //Declare generic extension properties
 val <T>List<T>.penultimate:T
@@ -62,6 +65,27 @@ inline fun <reified T>Iterable<*>.filterIsInstancE():List<T>{
     }
     return destination
 }
+
+//Replacing class reference with reified type parameter
+inline fun <reified T>loadService(): ServiceLoader<T>? {
+    return ServiceLoader.load(T::class.java)?: throw NullPointerException("null point exception")
+}
+
+//Restriction on reified type parameter
+//How you can use reified type parameters
+/*
+-In type cast and check(is,!is, as, as?)
+-To use kotlin reflection API (::Class)
+-To get corresponding java.lang.class(::class.java)
+-As type arguments to call other functions
+* */
+//What you can't do
+/*
+-To create new instance of class specified as type parameter
+-Call methods of companion object of the type parameter class
+-Use non-reified type parameter as type  arguments when call function with reified type parameter
+-Mark the type parameter of class, properties or non-inline function as reified
+* */
 
 fun main(){
     val letters = ('a'..'z').toList()
