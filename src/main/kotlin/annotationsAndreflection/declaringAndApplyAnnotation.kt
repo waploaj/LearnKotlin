@@ -69,7 +69,9 @@ class Example(){
     get() = "This is replaced"
 }
 
-
+@get:Deprecated(message = "replaced", replaceWith = ReplaceWith("90"))
+val name:String
+get() = "string"
 
 //Classes as annotation parameter
 interface Label{
@@ -94,6 +96,8 @@ data class Song(
 fun main(){
     val p = Example()
     println(Example::name)
+    println(name.get(1))
+    println()
 
     val q = Reggae("bobMarley", 77)
 }
